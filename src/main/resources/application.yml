@@ -1,0 +1,28 @@
+# Default profile: H2 in-memory database -> zero setup, just run the app.
+# For PostgreSQL run with:  --spring.profiles.active=postgres
+spring:
+  application:
+    name: bookstore
+  datasource:
+    url: jdbc:h2:mem:bookstore;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        default_batch_fetch_size: 20
+  data:
+    web:
+      pageable:
+        max-page-size: 100
+
+app:
+  seed:
+    enabled: true          # creates demo admin/customer + sample books on startup
+  jwt:
+    # Must be at least 32 characters (HS256). Override with the JWT_SECRET env variable in real use.
+    secret: ${JWT_SECRET:change-this-secret-key-to-a-long-random-string-123456}
+    expiration-ms: 86400000   # 24 hours
